@@ -17,6 +17,7 @@ import { MongooseModule } from '@nestjs/mongoose';
       }),
       inject: [ConfigService]
     }),
+    MongooseModule.forRoot(process.env.MONGODB_URI || ""),
     CampaignsModule],
   controllers: [AppController],
   providers: [AppService],
