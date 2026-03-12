@@ -17,12 +17,12 @@ export class CampaignsService {
     private campaignModel: Model<CampaignDocument>
   ) { }
 
-  list(filters: FilterType): Promise<Campaign[]> {
+  async list(filters: FilterType): Promise<Campaign[]> {
     const query: any = {}
 
-    if (filters.country) query.country = { $in: [filters.country] }
-    if (filters.advertiser) query.adveriser = { $in: [filters.advertiser] }
-    if (filters.status) query.status = { $in: [filters.status] }
+    if (filters.country) query.targetCountries = filters.country.toUpperCase()
+    if (filters.advertiser) query.adveriser = filters.advertiser
+    if (filters.status) query.status = filters.status
 
     return this.campaignModel.find(query).exec()
   }
