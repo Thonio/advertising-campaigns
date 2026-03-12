@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
-import { CampaignsService } from './campaigns.service';
-import { CreateCampaignDto } from './campaigns.dto';
+import { CampaignsService, StatsType } from './campaigns.service';
+import { CreateCampaignDto, ServeAdDto } from './campaigns.dto';
 import { Campaign } from './campaigns.schema';
 
 @Controller()
@@ -22,13 +22,13 @@ export class CampaignsController {
   }
 
   @Get('stats')
-  getStats(): string {
+  getStats(): Promise<StatsType> {
     return this.campaignsService.stat()
   }
 
   @Post('serve-ad')
-  serveAds(): string {
-    return this.campaignsService.serveAd()
+  serveAds(@Body() dto: ServeAdDto): Promise<Campaign> {
+    return this.campaignsService.serveAd(dto)
   }
 
 }
