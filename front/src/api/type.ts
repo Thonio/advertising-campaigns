@@ -7,7 +7,7 @@ export interface Campaign {
   budget: number;
   impressionsServed: number;
   targetCountries: string[];
-  status: 'active' | 'inactive' | 'completed';
+  status: 'active' | 'paused' | 'ended';
 }
 
 export interface Stats {
