@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { CampaignsService } from './campaigns.service';
 import { CreateCampaignDto } from './campaigns.dto';
 import { Campaign } from './campaigns.schema';
@@ -8,8 +8,12 @@ export class CampaignsController {
   constructor(private readonly campaignsService: CampaignsService) { }
 
   @Get('campaigns')
-  getCampaigns(): string {
-    return this.campaignsService.list()
+  getCampaigns(
+    @Query('country') country?: string,
+    @Query('advertiser') advertiser?: string,
+    @Query('status') status?: string
+  ): Promise<Campaign[]> {
+    return this.campaignsService.list({ country, advertiser, status })
   }
 
   @Post('campaigns')

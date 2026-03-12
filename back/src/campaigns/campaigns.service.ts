@@ -4,6 +4,12 @@ import { Campaign, CampaignDocument } from './campaigns.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
+type FilterType = {
+  country?: string,
+  advertiser?: string,
+  status?: string
+}
+
 @Injectable()
 export class CampaignsService {
   constructor(
@@ -11,8 +17,14 @@ export class CampaignsService {
     private campaignModel: Model<CampaignDocument>
   ) { }
 
-  list(): string {
-    return 'hello campaigns'
+  list(filters: FilterType): Promise<Campaign[]> {
+    const query: any = {}
+
+    if (filters.country) query.country = { $in: [filters.country] }
+    if (filters.advertiser) query.adveriser = { $in: [filters.advertiser] }
+    if (filters.status) query.status = { $in: [filters.status] }
+
+    return this.campaignModel.find(query).exec()
   }
 
   async create(dto: CreateCampaignDto): Promise<Campaign> {
